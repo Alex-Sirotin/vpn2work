@@ -43,7 +43,7 @@ update_credentials() {
     echo "$password" >> "$CREDENTIALS_FILE"
     
     # Очищаем файл после использования
-    sleep 1
+    sleep 2
     rm -f "$CREDENTIALS_FILE"
 }
 

@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  vpn-otp-proxy:
+    build: .
+    container_name: vpn-otp-proxy
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    environment:
+      - ENCRYPTION_KEY_FILE=/run/secrets/encryption_key
+      - PASSWORD_PREFIX_FILE=/run/secrets/password_prefix
+      - VPN_USERNAME_FILE=/run/secrets/vpn_username
+      - OVPN_CONFIG=/etc/openvpn/client.ovpn
+      - SSH_HOST=${SSH_HOST}
+      - SSH_PORT=${SSH_PORT:-22}
+      - SSH_USER=${SSH_USER:-root}
+      - HTTP_PROXY_PORT=${HTTP_PROXY_PORT:-8888}
+      - SOCKS_PROXY_PORT=${SOCKS_PROXY_PORT:-1080}
+      - HTTP_PROXY_PORT_2=${HTTP_PROXY_PORT_2}
+      - SOCKS_PROXY_PORT_2=${SOCKS_PROXY_PORT_2}
+      - PROXY_ALLOW_NETWORK=127.0.0.1 192.168.0.0/16 10.0.0.0/8 172.16.0.0/12
+    secrets:
+      - encryption_key
+      - password_prefix
+      - vpn_username
+    volumes:
+      - ./configs/client.ovpn:/etc/openvpn/client.ovpn
+      - ./secrets/otp_secret.enc:/etc/openvpn/otp_secret.enc
+      - ./secrets/ssh_key:/root/.ssh/id_rsa
+      - ./secrets/known_hosts:/root/.ssh/known_hosts
+    ports:
+      - "${HTTP_PROXY_PORT:-8888}:${HTTP_PROXY_PORT:-8888}"
+      - "${SOCKS_PROXY_PORT:-1080}:${SOCKS_PROXY_PORT:-1080}"
+      - "${HTTP_PROXY_PORT_2}:${HTTP_PROXY_PORT_2}"
+      - "${SOCKS_PROXY_PORT_2}:${SOCKS_PROXY_PORT_2}"
+    restart: unless-stopped
+
+secrets:
+  encryption_key:
+    file: ./secrets/encryption_key.txt
+  password_prefix:
+    file: ./secrets/password_prefix.txt
+  vpn_username:
+    file: ./secrets/vpn_username.txt

@@ -19,11 +19,11 @@ RUN pip3 install pyotp cryptography
 RUN mkdir -p /etc/openvpn/ /root/.ssh/
 
 # Копирование скриптов
-COPY vpn-login.sh /usr/local/bin/
-COPY generate-otp.py /usr/local/bin/
-COPY crypto_utils.py /usr/local/bin/
-COPY ssh-proxy.sh /usr/local/bin/
-COPY tinyproxy.conf /etc/tinyproxy/
+COPY scripts/vpn-login.sh /usr/local/bin/
+COPY scripts/generate-otp.py /usr/local/bin/
+COPY scripts/crypto_utils.py /usr/local/bin/
+COPY scripts/ssh-proxy.sh /usr/local/bin/
+COPY configs/tinyproxy.conf /etc/tinyproxy/
 
 # Сделать скрипты исполняемыми
 RUN chmod +x /usr/local/bin/vpn-login.sh /usr/local/bin/generate-otp.py /usr/local/bin/ssh-proxy.sh

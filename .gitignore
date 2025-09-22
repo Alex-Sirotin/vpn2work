@@ -2,3 +2,5 @@ authenticator.txt
 *.ovpn
 ovpn
 .env
+__pycache__
+secrets
