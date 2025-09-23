@@ -22,14 +22,15 @@ RUN mkdir -p /etc/openvpn/ /root/.ssh/
 COPY scripts/vpn-login.sh /usr/local/bin/
 COPY scripts/generate-otp.py /usr/local/bin/
 COPY scripts/crypto_utils.py /usr/local/bin/
+COPY scripts/get-otp.sh /usr/local/bin/
 COPY scripts/ssh-proxy.sh /usr/local/bin/
 COPY configs/tinyproxy.conf /etc/tinyproxy/
 
 # Сделать скрипты исполняемыми
-RUN chmod +x /usr/local/bin/vpn-login.sh /usr/local/bin/generate-otp.py /usr/local/bin/ssh-proxy.sh
+RUN chmod +x /usr/local/bin/vpn-login.sh /usr/local/bin/generate-otp.py /usr/local/bin/ssh-proxy.sh /usr/local/bin/get-otp.sh
 
 # Точка монтирования для конфигурации
 VOLUME /etc/openvpn
 
 # Запуск OpenVPN и SSH proxy
-CMD ["/usr/local/bin/ssh-proxy.sh"]
+#CMD ["/usr/local/bin/ssh-proxy.sh"]

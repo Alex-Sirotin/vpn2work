@@ -4,3 +4,4 @@ ovpn
 .env
 __pycache__
 secrets
+/data

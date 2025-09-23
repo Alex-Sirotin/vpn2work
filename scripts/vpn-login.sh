@@ -81,10 +81,14 @@ generate_password() {
 update_credentials() {
     local username=$1
     local password=$2
-    
+
+    echo "[DEBUG] Генерация OTP..."
     echo "$username" > "$CREDENTIALS_FILE"
     echo "$password" >> "$CREDENTIALS_FILE"
-    
+
+    echo "[DEBUG] Содержимое auth.txt:"
+    cat /etc/openvpn/auth.txt
+
     # Очищаем файл после использования
 #    sleep 2
 #    rm -f "$CREDENTIALS_FILE"
