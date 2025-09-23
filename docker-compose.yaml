@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   vpn-otp-proxy:
     build: .
@@ -17,8 +16,8 @@ services:
       - SSH_USER=${SSH_USER:-root}
       - HTTP_PROXY_PORT=${HTTP_PROXY_PORT:-8888}
       - SOCKS_PROXY_PORT=${SOCKS_PROXY_PORT:-1080}
-      - HTTP_PROXY_PORT_2=${HTTP_PROXY_PORT_2}
-      - SOCKS_PROXY_PORT_2=${SOCKS_PROXY_PORT_2}
+#      - HTTP_PROXY_PORT_2=${HTTP_PROXY_PORT_2}
+#      - SOCKS_PROXY_PORT_2=${SOCKS_PROXY_PORT_2}
       - PROXY_ALLOW_NETWORK=127.0.0.1 192.168.0.0/16 10.0.0.0/8 172.16.0.0/12
     secrets:
       - encryption_key
@@ -32,8 +31,10 @@ services:
     ports:
       - "${HTTP_PROXY_PORT:-8888}:${HTTP_PROXY_PORT:-8888}"
       - "${SOCKS_PROXY_PORT:-1080}:${SOCKS_PROXY_PORT:-1080}"
-      - "${HTTP_PROXY_PORT_2}:${HTTP_PROXY_PORT_2}"
-      - "${SOCKS_PROXY_PORT_2}:${SOCKS_PROXY_PORT_2}"
+#      - "${HTTP_PROXY_PORT_2}:${HTTP_PROXY_PORT_2}"
+#      - "${SOCKS_PROXY_PORT_2}:${SOCKS_PROXY_PORT_2}"
+    networks:
+      - vpn-net
     restart: unless-stopped
 
 secrets:
@@ -43,3 +44,10 @@ secrets:
     file: ./secrets/password_prefix.txt
   vpn_username:
     file: ./secrets/vpn_username.txt
+
+networks:
+  vpn-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "10.10.20.0/24" # Use a non-conflicting subnet

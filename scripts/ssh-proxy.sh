@@ -65,31 +65,31 @@ setup_additional_ports() {
 
 # Основной скрипт
 main() {
-    # Настройка переменных по умолчанию
-    SSH_HOST=${SSH_HOST:-""}
-    SSH_PORT=${SSH_PORT:-"22"}
-    SSH_USER=${SSH_USER:-"root"}
-    HTTP_PROXY_PORT=${HTTP_PROXY_PORT:-"8888"}
-    SOCKS_PROXY_PORT=${SOCKS_PROXY_PORT:-"1080"}
-    PROXY_ALLOW_NETWORK=${PROXY_ALLOW_NETWORK:-"127.0.0.1 192.168.0.0/16 10.0.0.0/8 172.16.0.0/12"}
+    # # Настройка переменных по умолчанию
+    # SSH_HOST=${SSH_HOST:-""}
+    # SSH_PORT=${SSH_PORT:-"22"}
+    # SSH_USER=${SSH_USER:-"root"}
+    # HTTP_PROXY_PORT=${HTTP_PROXY_PORT:-"8888"}
+    # SOCKS_PROXY_PORT=${SOCKS_PROXY_PORT:-"1080"}
+    # PROXY_ALLOW_NETWORK=${PROXY_ALLOW_NETWORK:-"127.0.0.1 192.168.0.0/16 10.0.0.0/8 172.16.0.0/12"}
     
-    echo "Настройка прокси серверов:"
-    echo "HTTP Proxy: ${HTTP_PROXY_PORT}"
-    echo "SOCKS Proxy: ${SOCKS_PROXY_PORT}"
-    echo "Дополнительные порты: HTTP2=${HTTP_PROXY_PORT_2}, SOCKS2=${SOCKS_PROXY_PORT_2}"
+    # echo "Настройка прокси серверов:"
+    # echo "HTTP Proxy: ${HTTP_PROXY_PORT}"
+    # echo "SOCKS Proxy: ${SOCKS_PROXY_PORT}"
+    # echo "Дополнительные порты: HTTP2=${HTTP_PROXY_PORT_2}, SOCKS2=${SOCKS_PROXY_PORT_2}"
     
-    # Запуск HTTP proxy
-    setup_http_proxy
+    # # Запуск HTTP proxy
+    # setup_http_proxy
     
-    # Запуск SOCKS proxy (если указан SSH хост)
-    if [ -n "$SSH_HOST" ] && [ -f "/root/.ssh/id_rsa" ]; then
-        setup_socks_proxy
-    else
-        echo "SSH хост не указан или SSH ключ не найден, SOCKS proxy не запущен"
-    fi
+    # # Запуск SOCKS proxy (если указан SSH хост)
+    # if [ -n "$SSH_HOST" ] && [ -f "/root/.ssh/id_rsa" ]; then
+    #     setup_socks_proxy
+    # else
+    #     echo "SSH хост не указан или SSH ключ не найден, SOCKS proxy не запущен"
+    # fi
     
-    # Запуск дополнительных портов
-    setup_additional_ports
+    # # Запуск дополнительных портов
+    # setup_additional_ports
     
     # Запуск OpenVPN
     echo "Запуск OpenVPN..."

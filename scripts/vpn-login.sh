@@ -8,8 +8,8 @@ VPN_USERNAME=${VPN_USERNAME:-"tt_ship"}
 PASSWORD_PREFIX=${PASSWORD_PREFIX:-"52"}
 
 # Прокси порты (для информации)
-HTTP_PROXY_PORT=${HTTP_PROXY_PORT:-"8888"}
-SOCKS_PROXY_PORT=${SOCKS_PROXY_PORT:-"1080"}
+# HTTP_PROXY_PORT=${HTTP_PROXY_PORT:-"8888"}
+# SOCKS_PROXY_PORT=${SOCKS_PROXY_PORT:-"1080"}
 
 # Путь к конфигурационному файлу OpenVPN
 OVPN_CONFIG=${OVPN_CONFIG:-"/etc/openvpn/client.ovpn"}
@@ -43,8 +43,8 @@ update_credentials() {
     echo "$password" >> "$CREDENTIALS_FILE"
     
     # Очищаем файл после использования
-    sleep 2
-    rm -f "$CREDENTIALS_FILE"
+#    sleep 2
+#    rm -f "$CREDENTIALS_FILE"
 }
 
 # Функция для вывода информации о прокси
@@ -80,7 +80,7 @@ while true; do
     update_credentials "$VPN_USERNAME" "$VPN_PASSWORD"
     
     # Показываем информацию о прокси
-    show_proxy_info
+    # show_proxy_info
     
     echo "Запуск OpenVPN с конфигурацией: $OVPN_CONFIG"
     
