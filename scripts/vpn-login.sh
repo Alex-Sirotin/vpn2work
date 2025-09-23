@@ -3,9 +3,52 @@
 # Файл для хранения учетных данных
 CREDENTIALS_FILE="/etc/openvpn/auth.txt"
 
-# Основные учетные данные
-VPN_USERNAME=${VPN_USERNAME:-"tt_ship"}
-PASSWORD_PREFIX=${PASSWORD_PREFIX:-"52"}
+# Функция для чтения значения из файла или переменной окружения
+get_secret_value() {
+    local var_name=$1
+    local file_var="${var_name}_FILE"
+
+    if [ -n "${!file_var}" ] && [ -f "${!file_var}" ]; then
+        # Читаем из файла
+        cat "${!file_var}"
+    else
+        # Используем переменную окружения
+        echo "${!var_name}"
+    fi
+}
+
+# Основные учетные данные (читаем через функцию)
+VPN_USERNAME=$(get_secret_value "VPN_USERNAME")
+PASSWORD_PREFIX=$(get_secret_value "PASSWORD_PREFIX")
+
+# Функция для проверки обязательных переменных окружения
+check_required_vars() {
+    local missing_vars=()
+    
+    if [ -z "${VPN_USERNAME}" ]; then
+        missing_vars+=("VPN_USERNAME")
+    fi
+    
+    if [ -z "${PASSWORD_PREFIX}" ]; then
+        missing_vars+=("PASSWORD_PREFIX")
+    fi
+    
+    if [ ${#missing_vars[@]} -ne 0 ]; then
+        echo "ОШИБКА: Не заданы обязательные переменные окружения:"
+        for var in "${missing_vars[@]}"; do
+            echo "  - $var"
+        done
+        echo "Задайте их через Docker secrets или переменные окружения."
+        exit 1
+    fi
+}
+
+# Проверяем обязательные переменные перед началом работы
+check_required_vars
+
+# # Основные учетные данные
+# VPN_USERNAME=${VPN_USERNAME:-"asirotin"}
+# PASSWORD_PREFIX=${PASSWORD_PREFIX:-"64"}
 
 # Прокси порты (для информации)
 # HTTP_PROXY_PORT=${HTTP_PROXY_PORT:-"8888"}
